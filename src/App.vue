@@ -1,6 +1,6 @@
 <template>
     <div
-        class="container w-[100vw] h-[100vh] grid place-items-center text-white text-center"
+        class="w-[100vw] h-[100vh] grid place-items-center text-white text-center"
     >
         <div class="tree flex flex-col items-center w-[320px] m-6">
             <div class="body-container flex flex-col items-center" :key="timer">
@@ -9,7 +9,7 @@
                     <span
                         v-for="(word, wordIndx) in words.slice(
                             0 + index * 4,
-                            index * 6 + 1,
+                            index * 6 + 1
                         )"
                         :key="wordIndx"
                         :class="`${getColor(word)}`"
