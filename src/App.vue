@@ -72,5 +72,7 @@ setInterval(() => {
     animation-name: Sparkle;
     animation-duration: 1s;
     animation-iteration-count: infinite;
+
+    text-shadow: #fc0 0 0 10px;
 }
 </style>
