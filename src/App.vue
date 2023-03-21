@@ -3,8 +3,8 @@
         class="container w-[100vw] h-[100vh] grid place-items-center text-white text-center"
     >
         <div class="tree flex flex-col items-center w-[320px] m-6">
-            <div class="body-container flex flex-col items-center">
-                <p class="text-2xl">🌟</p>
+            <div class="body-container flex flex-col items-center" :key="timer">
+                <p class="star text-2xl">🌟</p>
                 <p v-for="(count, index) in emptyArray" :key="index">
                     <span
                         v-for="(word, wordIndx) in words.slice(
@@ -33,8 +33,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-const emptyArray = ref(Array.from({ length: 17 }).fill(0));
-
 function getRandomBinary(size) {
     const UNIT = 6;
     let binary = "";
@@ -59,11 +57,20 @@ function getColor(word) {
     return color;
 }
 
-const words = getRandomBinary(1000);
+const emptyArray = ref(Array.from({ length: 17 }).fill(0));
+const words = ref(getRandomBinary(1000));
+const timer = ref(0);
+
+setInterval(() => {
+    timer.value = timer.value + 1;
+    words.value = getRandomBinary(1000);
+}, 1000);
 </script>
 
 <style lang="postcss">
-span {
-    transform: translateX(-50%);
+.star {
+    animation-name: Sparkle;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
 }
 </style>
