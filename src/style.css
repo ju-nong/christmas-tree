@@ -14,7 +14,7 @@ body {
     font-family: "Courier New", Courier, monospace;
 }
 
-@keyframes Sparkle {
+@keyframes Shining {
     0% {
         transform: scale(1);
     }
@@ -23,5 +23,17 @@ body {
     }
     100% {
         transform: scale(1);
+    }
+}
+
+@keyframes ClickMe {
+    0% {
+        transform: translate(130%, -50%);
+    }
+    50% {
+        transform: translate(110%, -50%);
+    }
+    100% {
+        transform: translate(130%, -50%);
     }
 }
