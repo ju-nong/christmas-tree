@@ -1,8 +1,8 @@
 <template>
     <div
-        class="w-[100vw] h-[100vh] grid place-items-center text-white text-center"
+        class="w-[100vw] h-[100vh] flex justify-center items-center text-white text-center overflow-hidden"
     >
-        <div class="tree flex flex-col items-center m-6">
+        <div class="tree flex flex-col items-center p-6">
             <div class="body-container flex flex-col items-center">
                 <p class="text-2xl" :class="`${glitter ? 'star' : ''}`">🌟</p>
                 <p v-for="(_, row) in rows" :key="row">

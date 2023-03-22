@@ -12,6 +12,7 @@
 body {
     background-color: #000;
     font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
 }
 
 @keyframes Shining {
@@ -35,5 +36,19 @@ body {
     }
     100% {
         transform: translate(130%, -50%);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .tree {
+        transform: scale(0.5);
+        transform-origin: center;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    .tree {
+        transform: scale(0.4);
+        transform-origin: center;
     }
 }
