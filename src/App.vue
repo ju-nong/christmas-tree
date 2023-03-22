@@ -85,7 +85,13 @@ function getColor(word) {
 watch(glitter, (to, from) => {
     if (to) {
         interval.value = setInterval(() => {
-            binarys.value = getRandomBinary(SIZE);
+            binarys.value = binarys.value
+                .split("")
+                .map((binary) =>
+                    binary === "-" ? "-" : binary === "0" ? "1" : "0",
+                )
+                .join(""); // on/off
+            // binarys.value = getRandomBinary(SIZE);   // new binarys
         }, 1000);
     } else {
         clearInterval(interval.value);
