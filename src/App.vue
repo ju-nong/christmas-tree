@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 
 const UNIT = 6; // 2진수 단위
 const LENGTH = 17; // 몸통 길이
