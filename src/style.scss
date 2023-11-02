@@ -39,6 +39,14 @@ body {
     }
 }
 
+.star {
+    animation-name: Shining;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+
+    text-shadow: #fc0 0 0 10px;
+}
+
 @media screen and (max-width: 500px) {
     .tree {
         transform: scale(0.5);

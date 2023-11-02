@@ -3,8 +3,8 @@
         class="w-[100vw] h-[100vh] flex justify-center items-center text-white text-center overflow-hidden"
     >
         <div class="tree flex flex-col items-center p-6">
-            <div class="body-container flex flex-col items-center">
-                <p class="text-2xl" :class="`${glitter ? 'star' : ''}`">🌟</p>
+            <div class="tree-header flex flex-col items-center">
+                <Star :twinkle="glitter" />
                 <p v-for="(_, row) in rows" :key="row">
                     <span
                         v-for="(binary, index) in binarys.slice(
@@ -17,14 +17,12 @@
                     >
                 </p>
             </div>
-            <div
-                class="pillar-container text-yellow-300 w-[75px] h-[90px] break-all"
-            >
+            <div class="tree-body text-yellow-300 w-[75px] break-all">
                 {{ pillar }}
             </div>
-            <div class="text-container font-black">
+            <div class="tree-footer font-black mt-[-6px]">
                 <div
-                    class="text-content cursor-pointer"
+                    class="tree-footer-main cursor-pointer"
                     :class="`${glitter ? 'on' : ''}`"
                     @click="glitter = !glitter"
                 >
@@ -32,7 +30,7 @@
                     <p class="text-[1.75rem] leading-4">CHRISTMAS</p>
                 </div>
                 <span
-                    class="click-over-guide absolute top-[50%] right-0 pointer-events-none"
+                    class="tree-footer-guide absolute top-[50%] right-0 pointer-events-none"
                     >👈 Click me!</span
                 >
             </div>
@@ -43,27 +41,30 @@
 <script setup>
 import { ref, watch } from "vue";
 
-const UNIT = 6; // 2진수 단위
-const LENGTH = 17; // 몸통 길이
-const SIZE = LENGTH * LENGTH; // 2진수 길이
+import { Star } from "./components";
 
-const rows = ref(Array.from({ length: LENGTH }).fill(0)); // 몸통 길이만큼 반복할 빈배열
-const pillar = ref(getRandomBinary(28)); // 기둥
-const binarys = ref(getRandomBinary(SIZE)); // 몸통에 쓰일 2진수 문자열
+const UNIT = 6; // 2진수 단위
+const HEADER_FLOOR = 17; // 이파리 층 수
+const HEADER_BINARY_LENGTH = HEADER_FLOOR * HEADER_FLOOR; // 이파리 2진수 길이
+const FOOTER_BINARY_LENGTH = 28; // 기둥 2진수 길이
+
+const rows = ref(Array.from({ length: HEADER_FLOOR }).fill(0)); // 몸통 길이만큼 반복할 빈배열
+const binarys = ref(getRandomBinary(HEADER_BINARY_LENGTH));
+const pillar = ref(getRandomBinary(FOOTER_BINARY_LENGTH));
 
 const glitter = ref(false); // 반짝임 여부
 const interval = ref(); // interval 저장 변수
 
 // 2진수 문자열 생성
-function getRandomBinary(size) {
+function getRandomBinary(len) {
     let binary = "";
 
-    for (let i = 1; i <= size; i++) {
+    for (let i = 1; i <= len; i++) {
         binary += Math.round(Math.random());
 
         if (i % UNIT === 0) {
             binary += "-";
-            i += 1;
+            len--;
         }
     }
     return binary;
@@ -99,32 +100,25 @@ watch(glitter, (to, from) => {
 });
 </script>
 
-<style lang="postcss">
-.star {
-    animation-name: Shining;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
+<style lang="scss">
+.tree {
+    &-footer {
+        position: relative;
 
-    text-shadow: #fc0 0 0 10px;
-}
+        &-main {
+            transition: all 0.3s;
 
-.text-container {
-    position: relative;
-}
+            *.on {
+                text-shadow: 0 0 10px #ffffff;
+            }
+        }
 
-.text-container .text-content {
-    transition: all 0.3s;
-}
-
-.text-container .text-content.on {
-    text-shadow: 0 0 10px #ffffff;
-}
-
-.text-container .click-over-guide {
-    transform: translate(130%, -50%);
-
-    animation: ClickMe;
-    animation-duration: 2.5s;
-    animation-iteration-count: infinite;
+        &-guide {
+            transform: translate(130%, -50%);
+            animation: ClickMe;
+            animation-duration: 2.5s;
+            animation-iteration-count: infinite;
+        }
+    }
 }
 </style>
