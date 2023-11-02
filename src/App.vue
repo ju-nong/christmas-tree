@@ -1,8 +1,8 @@
 <template>
     <div
-        class="w-[100vw] h-[100vh] flex justify-center items-center text-white text-center overflow-hidden"
+        class="w-full h-full flex justify-center items-center text-white text-center overflow-hidden"
     >
-        <div class="tree flex flex-col items-center p-6">
+        <div class="tree flex flex-col items-center">
             <div class="tree-header flex flex-col items-center">
                 <Star :twinkle="twinkle" />
                 <Floor v-for="(_, floor) in HEADER_FLOOR" :key="floor">
@@ -28,10 +28,12 @@
                     <p class="text-5xl">MERRY</p>
                     <p class="text-[1.75rem] leading-4">CHRISTMAS</p>
                 </div>
-                <span
+                <div
                     class="tree-footer-guide absolute top-[50%] right-0 pointer-events-none"
-                    >👈 Click me!</span
                 >
+                    <span class="tree-footer-guide-click">👈 Click me!</span>
+                    <span class="tree-footer-guide-touch">👈 Touch me!</span>
+                </div>
             </div>
         </div>
     </div>
@@ -108,9 +110,35 @@ function getRandomBinary(len) {
 
         &-guide {
             transform: translate(130%, -50%);
-            animation: ClickMe;
+            animation: FooterGuide;
             animation-duration: 2.5s;
             animation-iteration-count: infinite;
+        }
+    }
+}
+
+// 마우스가 있을 때
+@media (pointer: fine) {
+    .tree-footer-guide {
+        &-click {
+            display: block;
+        }
+
+        &-touch {
+            display: none;
+        }
+    }
+}
+
+// 터치스크린일 때
+@media (pointer: coarse) {
+    .tree-footer-guide {
+        &-click {
+            display: none;
+        }
+
+        &-touch {
+            display: block;
         }
     }
 }
