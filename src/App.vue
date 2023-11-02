@@ -38,14 +38,17 @@
         </div>
     </div>
 
-    <ChatButton />
+    <ChatButton :isChatOpen="isChatOpen" @click="isChatOpen = !isChatOpen" />
+    <Transition name="fade-slide" mode="out-in">
+        <ChatContainer v-show="isChatOpen" @close="isChatOpen = false" />
+    </Transition>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
 import { Star, Floor, Binary } from "./components";
-import { ChatButton } from "./components/chat";
+import { ChatButton, ChatContainer } from "./components/chat";
 
 const UNIT = 6; // 2진수 단위
 const HEADER_FLOOR = 17; // 이파리 층 수
@@ -58,6 +61,8 @@ const bodyBinarys = ref(getRandomBinary(FOOTER_BINARY_LENGTH));
 
 const twinkle = ref(false); // 반짝임 여부
 const $interval = ref(); // interval 저장 변수
+
+const isChatOpen = ref(false); // 채팅 열기
 
 // 반짝반짝
 function handleTwinkle() {

@@ -1,7 +1,64 @@
 <template>
-    <div></div>
+    <div class="chat-container fixed bg-white z-[20]">
+        <button
+            class="chat-container-close fixed top-[20px] right-[16px] z-[30] w-[32px] h-[32px] flex items-center justify-center rounded-full"
+            @click="emit('close')"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="36"
+                height="36"
+                fill="none"
+                viewBox="0 0 24 24"
+                foundation="[object Object]"
+                class="Iconstyled__Icon-sc-1iqwu2g-0 pJGcx"
+                data-testid="bezier-react-icon"
+                color="txt-black-darker"
+                margintop="0"
+                marginright="0"
+                marginbottom="0"
+                marginleft="0"
+                aria-hidden="true"
+            >
+                <path
+                    fill="#fff"
+                    fill-rule="evenodd"
+                    d="M16.95 8.464a1 1 0 1 0-1.414-1.414L12 10.586 8.465 7.051A1 1 0 0 0 7.05 8.464L10.586 12 7.05 15.535a1 1 0 1 0 1.414 1.414L12 13.414l3.536 3.536a1 1 0 0 0 1.414-1.415L13.414 12l3.536-3.536Z"
+                    clip-rule="evenodd"
+                ></path>
+            </svg>
+        </button>
+    </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { defineEmits } from "vue";
 
-<style lang="scss"></style>
+const emit = defineEmits(["close"]);
+</script>
+
+<style lang="scss">
+.chat-container {
+    border-radius: 30px;
+    width: 390px;
+    right: 50px;
+    bottom: 116px;
+    max-height: 690px;
+    height: calc(100% - 136px);
+
+    &-close {
+        background-color: rgba(0, 0, 0, 0.66);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .chat-container {
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        max-height: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
+</style>
