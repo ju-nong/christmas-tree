@@ -37,12 +37,15 @@
             </div>
         </div>
     </div>
+
+    <ChatButton />
 </template>
 
 <script setup>
 import { ref } from "vue";
 
 import { Star, Floor, Binary } from "./components";
+import { ChatButton } from "./components/chat";
 
 const UNIT = 6; // 2진수 단위
 const HEADER_FLOOR = 17; // 이파리 층 수

@@ -21,6 +21,10 @@ body {
     font-family: "Courier New", Courier, monospace;
 }
 
+#app {
+    position: relative;
+}
+
 .star {
     animation-name: Twinkle;
     animation-duration: 1s;
