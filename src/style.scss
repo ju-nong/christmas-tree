@@ -52,10 +52,3 @@ body {
         transform: translate(130%, -50%);
     }
 }
-
-@media screen and (max-width: 500px) {
-    .tree {
-        transform: scale(0.7);
-        transform-origin: center;
-    }
-}

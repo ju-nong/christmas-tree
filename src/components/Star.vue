@@ -1,5 +1,5 @@
 <template>
-    <p class="text-2xl" :class="`${props.twinkle ? 'star' : ''}`">🌟</p>
+    <p :class="`${props.twinkle ? 'star' : ''}`">🌟</p>
 </template>
 
 <script setup>
@@ -13,4 +13,16 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+p {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+@media screen and (max-width: 500px) {
+    p {
+        font-size: 1rem;
+        line-height: 1.75rem;
+    }
+}
+</style>

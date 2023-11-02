@@ -16,7 +16,7 @@
                     />
                 </Floor>
             </div>
-            <div class="tree-body text-yellow-300 w-[75px] break-all">
+            <div class="tree-body text-yellow-300">
                 {{ bodyBinarys }}
             </div>
             <div class="tree-footer font-black mt-[-6px]">
@@ -97,6 +97,12 @@ function getRandomBinary(len) {
 
 <style lang="scss">
 .tree {
+    &-body {
+        width: 75px;
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
     &-footer {
         position: relative;
 
@@ -106,6 +112,18 @@ function getRandomBinary(len) {
             &.on {
                 text-shadow: 0 0 10px #ffffff;
             }
+
+            p {
+                &:nth-child(1) {
+                    font-size: 3rem;
+                    line-height: 1;
+                }
+
+                &:nth-child(2) {
+                    font-size: 1.75rem;
+                    line-height: 1rem;
+                }
+            }
         }
 
         &-guide {
@@ -113,6 +131,39 @@ function getRandomBinary(len) {
             animation: FooterGuide;
             animation-duration: 2.5s;
             animation-iteration-count: infinite;
+            font-size: 1rem;
+            line-height: 1.5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .tree {
+        &-body {
+            width: 33.6px;
+            font-size: 0.5rem;
+            line-height: 0.75rem;
+        }
+
+        &-footer {
+            &-main {
+                p {
+                    &:nth-child(1) {
+                        font-size: 1.5rem;
+                        line-height: 1.75rem;
+                    }
+
+                    &:nth-child(2) {
+                        font-size: 0.875rem;
+                        line-height: 0.25rem;
+                    }
+                }
+            }
+
+            &-guide {
+                font-size: 0.5rem;
+                line-height: 0.75rem;
+            }
         }
     }
 }
