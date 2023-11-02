@@ -1,7 +1,7 @@
 <template>
-    <div class="chat-container fixed bg-white z-[20]">
+    <div class="chat-container fixed bg-white z-[20] flex flex-col">
         <button
-            class="chat-container-close fixed top-[20px] right-[16px] z-[30] w-[32px] h-[32px] flex items-center justify-center rounded-full"
+            class="chat-container-close fixed top-[20px] right-[16px] z-[30] w-[32px] h-[32px] items-center justify-center rounded-full"
             @click="emit('close')"
         >
             <svg
@@ -28,11 +28,15 @@
                 ></path>
             </svg>
         </button>
+        <ChatList />
+        <ChatInput />
     </div>
 </template>
 
 <script setup>
 import { defineEmits } from "vue";
+
+import { ChatList, ChatInput } from "./index";
 
 const emit = defineEmits(["close"]);
 </script>
@@ -45,8 +49,10 @@ const emit = defineEmits(["close"]);
     bottom: 116px;
     max-height: 690px;
     height: calc(100% - 136px);
+    font-family: "Noto Sans";
 
     &-close {
+        display: none;
         background-color: rgba(0, 0, 0, 0.66);
     }
 }
@@ -59,6 +65,10 @@ const emit = defineEmits(["close"]);
         max-height: 100%;
         height: 100%;
         border-radius: 0;
+
+        &-close {
+            display: flex;
+        }
     }
 }
 </style>
