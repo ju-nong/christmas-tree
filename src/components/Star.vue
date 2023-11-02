@@ -1,11 +1,11 @@
 <template>
-    <p class="text-2xl" :class="`${twinkle ? 'star' : ''}`">🌟</p>
+    <p class="text-2xl" :class="`${props.twinkle ? 'star' : ''}`">🌟</p>
 </template>
 
 <script setup>
 import { defineProps } from "vue";
 
-const { twinkle } = defineProps({
+const props = defineProps({
     twinkle: {
         type: Boolean,
         required: true,
