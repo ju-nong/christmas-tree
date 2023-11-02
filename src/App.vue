@@ -47,7 +47,7 @@ import { Star, Floor, Binary } from "./components";
 const UNIT = 6; // 2진수 단위
 const HEADER_FLOOR = 17; // 이파리 층 수
 const HEADER_BINARY_LENGTH = HEADER_FLOOR * HEADER_FLOOR; // 이파리 2진수 길이
-const FOOTER_BINARY_LENGTH = 28; // 기둥 2진수 길이
+const FOOTER_BINARY_LENGTH = UNIT * 4 + 4; // 기둥 2진수 길이
 
 const headerBinarys = ref(getRandomBinary(HEADER_BINARY_LENGTH));
 const cloneHeaderBinarys = headerBinarys.value;
