@@ -4,27 +4,26 @@
     >
         <div class="tree flex flex-col items-center p-6">
             <div class="tree-header flex flex-col items-center">
-                <Star :twinkle="glitter" />
-                <p v-for="(_, row) in rows" :key="row">
-                    <span
-                        v-for="(binary, index) in binarys.slice(
-                            row * row,
-                            (row + 1) * (row + 1),
+                <Star :twinkle="twinkle" />
+                <Floor v-for="(_, floor) in HEADER_FLOOR" :key="floor">
+                    <Binary
+                        v-for="(binary, index) in headerBinarys.slice(
+                            floor * floor,
+                            (floor + 1) * (floor + 1),
                         )"
                         :key="index"
-                        :class="`${getColor(binary)} `"
-                        >{{ binary }}</span
-                    >
-                </p>
+                        :data="binary"
+                    />
+                </Floor>
             </div>
             <div class="tree-body text-yellow-300 w-[75px] break-all">
-                {{ pillar }}
+                {{ bodyBinarys }}
             </div>
             <div class="tree-footer font-black mt-[-6px]">
                 <div
                     class="tree-footer-main cursor-pointer"
-                    :class="`${glitter ? 'on' : ''}`"
-                    @click="glitter = !glitter"
+                    :class="{ on: twinkle }"
+                    @click="handleTwinkle"
                 >
                     <p class="text-5xl">MERRY</p>
                     <p class="text-[1.75rem] leading-4">CHRISTMAS</p>
@@ -39,21 +38,43 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
-import { Star } from "./components";
+import { Star, Floor, Binary } from "./components";
 
 const UNIT = 6; // 2진수 단위
 const HEADER_FLOOR = 17; // 이파리 층 수
 const HEADER_BINARY_LENGTH = HEADER_FLOOR * HEADER_FLOOR; // 이파리 2진수 길이
 const FOOTER_BINARY_LENGTH = 28; // 기둥 2진수 길이
 
-const rows = ref(Array.from({ length: HEADER_FLOOR }).fill(0)); // 몸통 길이만큼 반복할 빈배열
-const binarys = ref(getRandomBinary(HEADER_BINARY_LENGTH));
-const pillar = ref(getRandomBinary(FOOTER_BINARY_LENGTH));
+const headerBinarys = ref(getRandomBinary(HEADER_BINARY_LENGTH));
+const cloneHeaderBinarys = headerBinarys.value;
+const bodyBinarys = ref(getRandomBinary(FOOTER_BINARY_LENGTH));
 
-const glitter = ref(false); // 반짝임 여부
-const interval = ref(); // interval 저장 변수
+const twinkle = ref(false); // 반짝임 여부
+const $interval = ref(); // interval 저장 변수
+
+// 반짝반짝
+function handleTwinkle() {
+    const cloneTwinkle = twinkle.value;
+
+    if (cloneTwinkle) {
+        clearInterval($interval.value);
+
+        headerBinarys.value = cloneHeaderBinarys; // 반짝일 때 중지할 수 있으니, 초기값으로 변경
+    } else {
+        $interval.value = setInterval(() => {
+            headerBinarys.value = headerBinarys.value
+                .split("")
+                .map((binary) =>
+                    binary === "-" ? "-" : binary === "0" ? "1" : "0",
+                )
+                .join("");
+        }, 1000);
+    }
+
+    twinkle.value = !cloneTwinkle;
+}
 
 // 2진수 문자열 생성
 function getRandomBinary(len) {
@@ -67,37 +88,9 @@ function getRandomBinary(len) {
             len--;
         }
     }
+
     return binary;
 }
-
-// -(하얀색), 0(초록색), 1(빨간색)
-function getColor(word) {
-    let color = "text-white";
-
-    if (word === "0") {
-        color = "text-emerald-400";
-    } else if (word === "1") {
-        color = "text-red-400";
-    }
-
-    return color;
-}
-
-watch(glitter, (to, from) => {
-    if (to) {
-        interval.value = setInterval(() => {
-            binarys.value = binarys.value
-                .split("")
-                .map((binary) =>
-                    binary === "-" ? "-" : binary === "0" ? "1" : "0",
-                )
-                .join(""); // on/off
-            // binarys.value = getRandomBinary(SIZE);   // new binarys
-        }, 1000);
-    } else {
-        clearInterval(interval.value);
-    }
-});
 </script>
 
 <style lang="scss">
@@ -108,7 +101,7 @@ watch(glitter, (to, from) => {
         &-main {
             transition: all 0.3s;
 
-            *.on {
+            &.on {
                 text-shadow: 0 0 10px #ffffff;
             }
         }
