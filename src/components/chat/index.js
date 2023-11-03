@@ -5,6 +5,7 @@ import ChatList from "./ChatList.vue";
 import ChatItem from "./ChatItem.vue";
 import ChatInput from "./ChatInput.vue";
 import ChatLoader from "./ChatLoader.vue";
+import ChatNewNotice from "./ChatNewNotice.vue";
 
 export {
     Chat,
@@ -14,4 +15,5 @@ export {
     ChatItem,
     ChatInput,
     ChatLoader,
+    ChatNewNotice,
 };
