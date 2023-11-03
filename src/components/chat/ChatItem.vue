@@ -47,7 +47,7 @@ const showNickname =
 
 // 시간 보여줄지
 const showDate =
-    afterChat.value === null ||
+    afterChat.value?.nickname !== chat.value.nickname ||
     formatCreateAt !== formatDate(afterChat.value.createAt);
 
 // 내 채팅인지
