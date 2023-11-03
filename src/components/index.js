@@ -1,5 +1,4 @@
-import Star from "./Star.vue";
-import Floor from "./Floor.vue";
-import Binary from "./Binary.vue";
+import { Tree } from "./tree";
+import { Chat } from "./chat";
 
-export { Star, Floor, Binary };
+export { Tree, Chat };
