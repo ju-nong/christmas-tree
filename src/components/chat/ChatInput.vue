@@ -4,6 +4,7 @@
             <textarea
                 v-model="$text"
                 :placeholder="`${nickname}(으)로 메시지 작성`"
+                @input="handleInput"
                 @keydown="handleKeydown"
             />
         </div>
@@ -39,6 +40,9 @@ async function addChat() {
 
     $text.value = "";
 }
+
+// 조합문자 첫 글자 입력 때문에
+const handleInput = (event) => ($text.value = event.target.value);
 
 // Enter 입력
 function handleKeydown(event) {
