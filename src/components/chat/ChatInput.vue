@@ -1,13 +1,65 @@
 <template>
     <div class="chat-input">
         <div class="chat-input-container">
-            <textarea placeholder="익명으로 메시지 작성" />
+            <textarea
+                v-model="$text"
+                :placeholder="`${nickname}(으)로 메시지 작성`"
+                @keydown="handleKeydown"
+            />
         </div>
-        <button class="chat-input-send">작성</button>
+        <button class="chat-input-send" :disabled="!$trimText" @click="addChat">
+            작성
+        </button>
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, computed } from "vue";
+
+import { storeToRefs } from "pinia";
+import { useUser } from "../../stores";
+
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
+const user = useUser();
+const { nickname, userAgent } = storeToRefs(user);
+
+const $text = ref("");
+const $trimText = computed(() => $text.value.trim());
+
+// 채팅 추가
+async function addChat() {
+    await addDoc(collection(db, "chat"), {
+        createAt: new Date(),
+        text: $trimText.value,
+        nickname: nickname.value,
+        userAgent: userAgent.value,
+    });
+
+    $text.value = "";
+}
+
+// Enter 입력
+function handleKeydown(event) {
+    const { isComposing, key, shiftKey } = event;
+
+    // 조합문자
+    if (isComposing) {
+        return;
+    }
+
+    // 줄바꿈
+    if (key === "Enter" && shiftKey) {
+        return;
+    }
+
+    if (event.key === "Enter" && $trimText.value) {
+        event.preventDefault();
+        addChat();
+    }
+}
+</script>
 
 <style lang="scss">
 .chat-input {
