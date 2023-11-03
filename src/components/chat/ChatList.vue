@@ -4,7 +4,93 @@
     ></ul>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onBeforeMount, onBeforeUnmount, watch } from "vue";
+
+import { db } from "../../firebase";
+import {
+    query,
+    collection,
+    orderBy,
+    startAfter,
+    limit,
+    onSnapshot,
+} from "firebase/firestore";
+
+const LIMIT = 30;
+
+// 채팅 스냅샷
+const unsubscribe = ref(null);
+
+// 이전 채팅 문서
+const beforeDoc = ref(null);
+
+// 채팅
+const chats = ref([]);
+
+// 최신 및 이전 채팅가져오는 쿼리 추출
+function getQuery(type) {
+    switch (type) {
+        case "basic":
+            return query(
+                collection(db, "chat"),
+                orderBy("createAt", "desc"),
+                limit(LIMIT),
+            );
+        case "before":
+            return query(
+                collection(db, "chat"),
+                orderBy("createAt", "desc"),
+                startAfter(beforeDoc.value),
+                limit(LIMIT),
+            );
+    }
+}
+
+watch(chats, (to, from) => {
+    console.log(to);
+});
+
+onBeforeMount(() => {
+    unsubscribe.value = onSnapshot(getQuery("basic"), (snapshot) => {
+        const changes = snapshot.docChanges();
+        const reversedChanges = changes.reverse();
+
+        // init
+        if (!beforeDoc.value) {
+            chats.value = [
+                ...chats.value,
+                ...reversedChanges.map((chat) => ({
+                    id: chat.doc.id,
+                    ...chat.doc.data(),
+                })),
+            ];
+
+            beforeDoc.value = reversedChanges[0].doc;
+        } else {
+            // new chat
+            const newChatDocs = [];
+
+            for (let i = 0; i < reversedChanges.length; i++) {
+                const { type, doc } = reversedChanges[i];
+
+                if (type === "added") {
+                    newChatDocs.push(doc);
+                }
+            }
+
+            chats.value = [
+                ...chats.value,
+                ...newChatDocs.map((chat) => ({ id: chat.id, ...chat.data() })),
+            ];
+        }
+    });
+});
+
+onBeforeUnmount(() => {
+    unsubscribe();
+});
+</script>
 
 <style lang="scss">
 .chat-list {
