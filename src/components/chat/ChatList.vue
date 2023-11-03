@@ -4,7 +4,16 @@
     ></ul>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted } from "vue";
+import { getNickname } from "../../utils";
+
+onMounted(async () => {
+    const nickname = await getNickname();
+
+    console.log(nickname);
+});
+</script>
 
 <style lang="scss">
 .chat-list {
