@@ -15,13 +15,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, defineEmits } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useUser } from "../../stores";
 
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+
+const emit = defineEmits(["handleTriggerAddChat"]);
 
 const user = useUser();
 const { nickname, userAgent } = storeToRefs(user);
@@ -31,9 +33,13 @@ const $trimText = computed(() => $text.value.trim());
 
 // 채팅 추가
 async function addChat() {
+    emit("handleTriggerAddChat");
+
+    const cloneText = $trimText.value;
+
     await addDoc(collection(db, "chat"), {
         createAt: new Date(),
-        text: $trimText.value,
+        text: cloneText,
         nickname: nickname.value,
         userAgent: userAgent.value,
     });

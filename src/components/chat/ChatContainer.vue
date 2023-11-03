@@ -29,17 +29,26 @@
             </svg>
         </button>
 
-        <ChatList />
-        <ChatInput />
+        <ChatList :triggerAddChat="triggerAddChat" :isOpen="props.isOpen" />
+        <ChatInput @handleTriggerAddChat="triggerAddChat += 1" />
     </div>
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
+import { ref, defineEmits, defineProps } from "vue";
 
 import { ChatList, ChatInput } from "./index";
 
+const props = defineProps({
+    isOpen: {
+        type: Boolean,
+        required: true,
+    },
+});
+
 const emit = defineEmits(["close"]);
+
+const triggerAddChat = ref(0);
 </script>
 
 <style lang="scss">

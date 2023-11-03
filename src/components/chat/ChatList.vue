@@ -1,10 +1,13 @@
 <template>
     <ul
         class="chat-list w-full h-full flex flex-col gap-y-[4px] list-none overflow-x-hidden overflow-y-scroll pb-[8px]"
+        ref="$list"
+        @scroll="handleScroll"
     >
+        <ChatLoader v-if="config.isTop" />
         <ChatItem
             v-for="(chat, index) in chats"
-            :key="chat.id"
+            :key="[chat.id, chats[index + 1]]"
             :chat="chat"
             :beforeChat="chats[index - 1] || null"
             :afterChat="chats[index + 1] || null"
@@ -13,9 +16,18 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, onBeforeUnmount, watch } from "vue";
+import {
+    ref,
+    reactive,
+    onBeforeMount,
+    onBeforeUnmount,
+    watch,
+    defineProps,
+    toRefs,
+    nextTick,
+} from "vue";
 
-import { ChatItem } from "./index";
+import { ChatItem, ChatLoader } from "./index";
 
 import { db } from "../../firebase";
 import {
@@ -25,9 +37,22 @@ import {
     startAfter,
     limit,
     onSnapshot,
+    getDocs,
 } from "firebase/firestore";
 
 const LIMIT = 30;
+
+const props = defineProps({
+    triggerAddChat: {
+        type: Number,
+        required: true,
+    },
+    isOpen: {
+        type: Boolean,
+        required: true,
+    },
+});
+const { triggerAddChat, isOpen } = toRefs(props);
 
 // 채팅 스냅샷
 const unsubscribe = ref(null);
@@ -37,6 +62,19 @@ const beforeDoc = ref(null);
 
 // 채팅
 const chats = ref([]);
+
+// 채팅 리스트 엘리먼트
+const $list = ref();
+
+// config
+const config = reactive({
+    init: true, // 최초 실행
+    isTop: false, // 스크롤이 맨 상단인지
+    isBottom: false, // 스크롤이 맨 하단인지
+    isEnd: false, // 마지막 채팅인지
+    cloneTriggerAddChat: false, // 채팅 추가 Trigger
+    prevScrollHeight: 0, // 이전 ScrollHeight
+});
 
 // 최신 및 이전 채팅가져오는 쿼리 추출
 function getQuery(type) {
@@ -57,8 +95,85 @@ function getQuery(type) {
     }
 }
 
-watch(chats, (to, from) => {
-    console.log(to);
+// 이전 채팅 가져오기
+async function getBeforeChat() {
+    const { docs } = await getDocs(getQuery("before"));
+
+    if (docs.length) {
+        const reversedBeforeChat = docs.reverse();
+
+        chats.value = [
+            ...reversedBeforeChat.map((chat) => ({
+                id: chat.id,
+                ...chat.data(),
+            })),
+            ...chats.value,
+        ];
+
+        beforeDoc.value = reversedBeforeChat[0];
+    } else {
+        config.isEnd = true;
+        config.isTop = false;
+
+        alert("마지막입니다");
+    }
+}
+
+function handleScroll() {
+    const { scrollTop, clientHeight, scrollHeight } = $list.value;
+
+    config.isBottom = scrollHeight - clientHeight - 50 <= scrollTop;
+
+    if (config.isBottom) {
+        // 새로운 채팅 알림
+    }
+
+    // 맨 위
+    if (!scrollTop && !config.init && !config.isEnd) {
+        config.isTop = true;
+        config.prevScrollHeight = scrollHeight;
+
+        getBeforeChat();
+    }
+}
+
+watch(chats, async (to) => {
+    if (to.length && $list.value) {
+        const { init, isTop, isBottom, cloneTriggerAddChat, prevScrollHeight } =
+            config;
+
+        // init이거나 직접 추가 했을 때
+        if (init || cloneTriggerAddChat || isBottom) {
+            if (init || cloneTriggerAddChat) {
+                config.init = false;
+                config.cloneTriggerAddChat = false;
+            }
+
+            await nextTick();
+            $list.value.scrollTop = $list.value.scrollHeight;
+        } else if (isTop) {
+            // 맨 상단일 때
+            config.isTop = false;
+
+            await nextTick();
+            $list.value.scrollTop = $list.value.scrollHeight - prevScrollHeight;
+        } else {
+            // 남이 새로운 채팅을 추가 했을 때
+            // await nextTick();
+            // $list.value.scrollTop = $list.value.scrollHeight - prevScrollHeight;
+        }
+    }
+});
+
+watch(triggerAddChat, () => {
+    config.cloneTriggerAddChat = true;
+});
+
+watch(isOpen, async (to) => {
+    if (to) {
+        await nextTick();
+        $list.value.scrollTop = $list.value.scrollHeight;
+    }
 });
 
 onBeforeMount(() => {
@@ -98,7 +213,7 @@ onBeforeMount(() => {
 });
 
 onBeforeUnmount(() => {
-    unsubscribe();
+    unsubscribe.value();
 });
 </script>
 
@@ -122,7 +237,6 @@ onBeforeUnmount(() => {
 
     > li {
         width: 100%;
-        padding-left: 32px;
         display: flex;
         position: relative;
         column-gap: 6px;

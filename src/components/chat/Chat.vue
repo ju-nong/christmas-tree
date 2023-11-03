@@ -2,7 +2,11 @@
     <ChatButton :isChatOpen="isChatOpen" @click="isChatOpen = !isChatOpen" />
 
     <Transition name="fade-slide" mode="out-in">
-        <ChatContainer v-show="isChatOpen" @close="isChatOpen = false" />
+        <ChatContainer
+            v-show="isChatOpen"
+            :isOpen="isChatOpen"
+            @close="isChatOpen = false"
+        />
     </Transition>
 </template>
 
