@@ -1,11 +1,21 @@
 <template>
     <ul
-        class="chat-list w-full h-full flex flex-col gap-y-[4px] list-none overflow-x-hidden overflow-y-scroll"
-    ></ul>
+        class="chat-list w-full h-full flex flex-col gap-y-[4px] list-none overflow-x-hidden overflow-y-scroll pb-[8px]"
+    >
+        <ChatItem
+            v-for="(chat, index) in chats"
+            :key="chat.id"
+            :chat="chat"
+            :beforeChat="chats[index - 1] || null"
+            :afterChat="chats[index + 1] || null"
+        />
+    </ul>
 </template>
 
 <script setup>
 import { ref, onBeforeMount, onBeforeUnmount, watch } from "vue";
+
+import { ChatItem } from "./index";
 
 import { db } from "../../firebase";
 import {
@@ -121,6 +131,36 @@ onBeforeUnmount(() => {
         &.first {
             margin-top: 16px;
             padding-top: 16px;
+        }
+
+        &.mine {
+            padding-left: 0px;
+            justify-content: flex-end;
+
+            > div {
+                display: none;
+            }
+
+            > p {
+                order: 2;
+            }
+
+            > span {
+                order: 1;
+            }
+        }
+
+        .nickname {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            > span {
+                font-size: 11px;
+                line-height: 13px;
+                color: rgb(30, 30, 35);
+            }
         }
 
         > p {

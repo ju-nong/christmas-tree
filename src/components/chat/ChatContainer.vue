@@ -28,6 +28,7 @@
                 ></path>
             </svg>
         </button>
+
         <ChatList />
         <ChatInput />
     </div>
@@ -50,6 +51,7 @@ const emit = defineEmits(["close"]);
     max-height: 690px;
     height: calc(100% - 136px);
     font-family: "Noto Sans";
+    padding: 16px 8px 0px 8px;
 
     &-close {
         display: none;

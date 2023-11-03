@@ -86,7 +86,7 @@ function handleKeydown(event) {
     &-send {
         width: 74px;
         height: 30px;
-        margin: 0px 8px;
+        margin-left: 8px;
         border-radius: 6px;
         background-color: #1a88e9;
         color: #fff;

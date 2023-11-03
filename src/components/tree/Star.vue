@@ -1,5 +1,5 @@
 <template>
-    <p :class="`${props.twinkle ? 'star' : ''}`">🌟</p>
+    <p :class="{ star: props.twinkle }">🌟</p>
 </template>
 
 <script setup>
