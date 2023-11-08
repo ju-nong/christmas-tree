@@ -33,9 +33,10 @@ const $trimText = computed(() => $text.value.trim());
 
 // 채팅 추가
 async function addChat() {
-    emit("handleTriggerAddChat");
+    emit("onTriggerAddChat");
 
     const cloneText = $trimText.value;
+    $text.value = "";
 
     await addDoc(collection(db, "chat"), {
         createAt: new Date(),
@@ -43,8 +44,6 @@ async function addChat() {
         nickname: nickname.value,
         userAgent: userAgent.value,
     });
-
-    $text.value = "";
 }
 
 // 조합문자 첫 글자 입력 때문에

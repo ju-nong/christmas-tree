@@ -32,7 +32,7 @@
         <div class="chat-container-list relative overflow-hidden flex-1 w-full">
             <ChatList :triggerAddChat="triggerAddChat" :isOpen="props.isOpen" />
         </div>
-        <ChatInput @handleTriggerAddChat="triggerAddChat += 1" />
+        <ChatInput @onTriggerAddChat="triggerAddChat += 1" />
     </div>
 </template>
 
