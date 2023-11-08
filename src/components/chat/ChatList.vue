@@ -13,6 +13,12 @@
             :afterChat="chats[index + 1] || null"
         />
     </ul>
+
+    <ChatNewNotice
+        v-if="!!newChat"
+        :chat="newChat"
+        @onScrollToBottom="handleScrollToBottom"
+    />
 </template>
 
 <script setup>
@@ -27,7 +33,7 @@ import {
     nextTick,
 } from "vue";
 
-import { ChatItem, ChatLoader } from "./index";
+import { ChatItem, ChatLoader, ChatNewNotice } from "./index";
 
 import { db } from "../../firebase";
 import {
@@ -62,6 +68,7 @@ const beforeDoc = ref(null);
 
 // 채팅
 const chats = ref([]);
+const newChat = ref(null);
 
 // 채팅 리스트 엘리먼트
 const $list = ref();
@@ -125,7 +132,7 @@ function handleScroll() {
     config.isBottom = scrollHeight - clientHeight - 50 <= scrollTop;
 
     if (config.isBottom) {
-        // 새로운 채팅 알림
+        newChat.value = null;
     }
 
     // 맨 위
@@ -134,6 +141,13 @@ function handleScroll() {
         config.prevScrollHeight = scrollHeight;
 
         getBeforeChat();
+    }
+}
+
+// 스크롤 맨 하단으로 이동
+function handleScrollToBottom() {
+    if ($list.value) {
+        $list.value.scrollTop = $list.value.scrollHeight;
     }
 }
 
@@ -151,16 +165,16 @@ watch(chats, async (to) => {
 
             await nextTick();
             $list.value.scrollTop = $list.value.scrollHeight;
+
+            newChat.value = null;
         } else if (isTop) {
             // 맨 상단일 때
             config.isTop = false;
 
             await nextTick();
             $list.value.scrollTop = $list.value.scrollHeight - prevScrollHeight;
-        } else {
-            // 남이 새로운 채팅을 추가 했을 때
-            // await nextTick();
-            // $list.value.scrollTop = $list.value.scrollHeight - prevScrollHeight;
+        } else if (!isBottom) {
+            newChat.value = chats.value.at(-1) || null;
         }
     }
 });

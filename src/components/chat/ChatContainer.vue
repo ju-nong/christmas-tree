@@ -31,7 +31,6 @@
 
         <div class="chat-container-list relative overflow-hidden flex-1 w-full">
             <ChatList :triggerAddChat="triggerAddChat" :isOpen="props.isOpen" />
-            <ChatNewNotice />
         </div>
         <ChatInput @handleTriggerAddChat="triggerAddChat += 1" />
     </div>
@@ -40,7 +39,7 @@
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
 
-import { ChatList, ChatInput, ChatNewNotice } from "./index";
+import { ChatList, ChatInput } from "./index";
 
 const props = defineProps({
     isOpen: {

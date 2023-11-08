@@ -1,14 +1,17 @@
 <template>
     <div
         class="chat-new cursor-pointer absolute bottom-0 left-0 w-full z-[25] items-center h-[38px] px-[16px] backdrop-blur-[4px]"
+        @click="emits('onScrollToBottom')"
     >
         <div class="chat-new-profile flex items-center">
-            <span class="font-bold text-[11px] whitespace-pre">Guest</span>
+            <span class="font-bold text-[11px] whitespace-pre">{{
+                chat.nickname
+            }}</span>
         </div>
         <p
             class="pl-[4px] flex-1 text-[#1e1e23] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]"
         >
-            안녕하세요
+            {{ chat.text }}
         </p>
         <button class="bg-none text-[#636369] rotate-90">
             <svg
@@ -29,7 +32,19 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { defineProps, defineEmits, computed } from "vue";
+
+const props = defineProps({
+    chat: {
+        type: Object,
+        required: true,
+    },
+});
+const chat = computed(() => props.chat);
+
+const emits = defineEmits(["onScrollToBottom"]);
+</script>
 
 <style lang="scss">
 .chat-new {
