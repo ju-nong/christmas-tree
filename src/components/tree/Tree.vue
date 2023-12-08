@@ -30,7 +30,7 @@
                 </div>
                 <div
                     class="tree-footer-guide absolute top-[50%] right-0 pointer-events-none"
-                    :class="{ hide: !notYetTwinkle }"
+                    :class="{ hide: twinkle }"
                 >
                     <span class="tree-footer-guide-click">👈 Click me!</span>
                     <span class="tree-footer-guide-touch">👈 Touch me!</span>
@@ -41,9 +41,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, defineEmits } from "vue";
 
 import { Star, Floor, Binary } from "./index";
+
+const emits = defineEmits(["onChangeTwinkle"]);
 
 const UNIT = 6; // 2진수 단위
 const HEADER_FLOOR = 17; // 이파리 층 수
@@ -57,12 +59,8 @@ const bodyBinarys = ref(getRandomBinary(FOOTER_BINARY_LENGTH));
 const twinkle = ref(false); // 반짝임 여부
 const $interval = ref(); // interval 저장 변수
 
-const notYetTwinkle = ref(true); // 반짝인 적이 있는지
-
 // 반짝반짝
 function handleTwinkle() {
-    notYetTwinkle.value = false;
-
     const cloneTwinkle = twinkle.value;
 
     if (cloneTwinkle) {
@@ -98,6 +96,10 @@ function getRandomBinary(len) {
 
     return binary;
 }
+
+watch(twinkle, (to) => {
+    emits("onChangeTwinkle", to);
+});
 </script>
 
 <style lang="scss">
