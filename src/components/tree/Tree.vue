@@ -30,6 +30,7 @@
                 </div>
                 <div
                     class="tree-footer-guide absolute top-[50%] right-0 pointer-events-none"
+                    :class="{ hide: !notYetTwinkle }"
                 >
                     <span class="tree-footer-guide-click">👈 Click me!</span>
                     <span class="tree-footer-guide-touch">👈 Touch me!</span>
@@ -56,8 +57,12 @@ const bodyBinarys = ref(getRandomBinary(FOOTER_BINARY_LENGTH));
 const twinkle = ref(false); // 반짝임 여부
 const $interval = ref(); // interval 저장 변수
 
+const notYetTwinkle = ref(true); // 반짝인 적이 있는지
+
 // 반짝반짝
 function handleTwinkle() {
+    notYetTwinkle.value = false;
+
     const cloneTwinkle = twinkle.value;
 
     if (cloneTwinkle) {
@@ -133,6 +138,11 @@ function getRandomBinary(len) {
             animation-iteration-count: infinite;
             font-size: 1rem;
             line-height: 1.5rem;
+            transition: opacity 0.5s;
+
+            &.hide {
+                opacity: 0;
+            }
         }
     }
 }
