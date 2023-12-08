@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineEmits } from "vue";
+import { ref, computed, defineEmits, onBeforeMount } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useUser } from "../../stores";
@@ -27,6 +27,7 @@ const emit = defineEmits(["handleTriggerAddChat"]);
 
 const user = useUser();
 const { nickname, userAgent } = storeToRefs(user);
+const isMobile = ref(false);
 
 const $text = ref("");
 const $trimText = computed(() => $text.value.trim());
@@ -46,6 +47,13 @@ async function addChat() {
     });
 }
 
+// 모바일인지 확인
+const handleCheckMobile = () =>
+    navigator.userAgent.indexOf("IEMobile") !== -1 ||
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+    );
+
 // 조합문자 첫 글자 입력 때문에
 const handleInput = (event) => ($text.value = event.target.value);
 
@@ -58,16 +66,21 @@ function handleKeydown(event) {
         return;
     }
 
-    // 줄바꿈
-    if (key === "Enter" && shiftKey) {
-        return;
-    }
+    // Enter
+    if (key == "Enter") {
+        // [PC] Shift + Enter 줄바꿈이거나 [Mobile]일 대
+        if (shiftKey || isMobile.value) {
+            return;
+        }
 
-    if (event.key === "Enter" && $trimText.value) {
         event.preventDefault();
         addChat();
     }
 }
+
+onBeforeMount(() => {
+    isMobile.value = handleCheckMobile();
+});
 </script>
 
 <style lang="scss">
