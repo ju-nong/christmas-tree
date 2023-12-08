@@ -9,7 +9,7 @@
             }}</span>
         </div>
         <p
-            class="pl-[4px] flex-1 text-[#1e1e23] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]"
+            class="pl-[4px] flex-1 overflow-hidden whitespace-nowrap text-ellipsis text-[14px]"
         >
             {{ chat.text }}
         </p>
@@ -48,7 +48,8 @@ const emits = defineEmits(["onScrollToBottom"]);
 
 <style lang="scss">
 .chat-new {
-    background-color: rgba(222, 225, 229, 0.9);
+    background-color: rgba(103, 105, 114, 0.9);
     display: flex;
+    color: #dbdee1;
 }
 </style>

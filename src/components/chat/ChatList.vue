@@ -287,7 +287,7 @@ onBeforeUnmount(() => {
             > span {
                 font-size: 11px;
                 line-height: 13px;
-                color: rgb(30, 30, 35);
+                color: #fff;
             }
         }
 
@@ -297,17 +297,17 @@ onBeforeUnmount(() => {
             font-size: 13px;
             line-height: 16px;
             border-radius: 21px;
-            background-color: rgb(243, 244, 248);
+            background-color: #383a40;
             word-break: break-word;
             word-wrap: break-word;
             white-space: pre-wrap;
-            color: rgb(30, 30, 35);
+            color: #fff;
         }
 
         > span {
             line-height: 12px;
             font-size: 10px;
-            color: rgb(118, 118, 120);
+            color: #949ba4;
             margin-bottom: 4px;
             white-space: nowrap;
         }

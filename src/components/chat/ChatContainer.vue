@@ -1,5 +1,5 @@
 <template>
-    <div class="chat-container fixed bg-white z-[20] flex flex-col">
+    <div class="chat-container fixed bg-[#313338] z-[20] flex flex-col">
         <button
             class="chat-container-close fixed top-[20px] right-[16px] z-[30] w-[32px] h-[32px] items-center justify-center rounded-full"
             @click="emit('close')"
@@ -8,7 +8,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 width="36"
                 height="36"
-                fill="none"
+                fill="#959595"
                 viewBox="0 0 24 24"
                 foundation="[object Object]"
                 class="Iconstyled__Icon-sc-1iqwu2g-0 pJGcx"
@@ -55,7 +55,6 @@ const triggerAddChat = ref(0);
 
 <style lang="scss">
 .chat-container {
-    border-radius: 30px;
     width: 390px;
     right: 50px;
     bottom: 116px;
@@ -66,7 +65,7 @@ const triggerAddChat = ref(0);
 
     &-close {
         display: none;
-        background-color: rgba(0, 0, 0, 0.66);
+        background-color: #313338;
     }
 }
 

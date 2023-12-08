@@ -98,6 +98,14 @@ onBeforeMount(() => {
             outline: none;
             width: 100%;
             resize: none;
+            background-color: #383a40;
+            border-radius: 3px;
+            padding: 3px;
+            color: #fff;
+
+            &::placeholder {
+                color: #676972;
+            }
         }
     }
 
@@ -113,8 +121,8 @@ onBeforeMount(() => {
         cursor: pointer;
 
         &:disabled {
-            background-color: rgb(243, 244, 248);
-            color: rgba(0, 0, 0, 0.1);
+            background-color: #676972;
+            color: #dbdee1;
             cursor: auto;
         }
     }

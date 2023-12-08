@@ -1,6 +1,6 @@
 <template>
     <button
-        class="fixed p-[8px] rounded-[24px] bg-white z-[10]"
+        class="fixed p-[8px] rounded-[24px] bg-[#313338] z-[10]"
         :class="{ hide: hide }"
     >
         <img
