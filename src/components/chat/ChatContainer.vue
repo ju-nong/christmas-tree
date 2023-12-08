@@ -55,6 +55,7 @@ const triggerAddChat = ref(0);
 
 <style lang="scss">
 .chat-container {
+    border-radius: 30px;
     width: 390px;
     right: 50px;
     bottom: 116px;
