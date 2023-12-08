@@ -40,6 +40,7 @@ button {
     }
 
     &.hide {
+        pointer-events: none;
         opacity: 0;
     }
 }
