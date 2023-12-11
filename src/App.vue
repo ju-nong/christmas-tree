@@ -1,6 +1,7 @@
 <template>
     <Tree @onChangeTwinkle="handleChangeTwinkle" />
     <Chat :twinkle="twinkle" />
+    <SpeedInsights />
 </template>
 
 <script setup>
@@ -8,6 +9,7 @@ import { ref, onBeforeMount } from "vue";
 import { getNickname } from "./utils";
 import { useUser } from "./stores";
 import { Tree, Chat } from "./components";
+import { SpeedInsights } from "@vercel/speed-insights/vue";
 
 const user = useUser();
 
