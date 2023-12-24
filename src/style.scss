@@ -3,105 +3,122 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
 }
 
 html,
 body,
 #app {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 body {
-    background-color: #000;
-    font-family: "Courier New", Courier, monospace;
+  background-color: #000;
+  font-family: "Courier New", Courier, monospace;
 }
 
 #app {
-    position: relative;
+  position: relative;
 }
 
 .star {
-    animation-name: Twinkle;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
+  animation-name: Twinkle;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 
-    text-shadow: #fc0 0 0 10px;
+  text-shadow: #fc0 0 0 10px;
 }
 
 // 채팅창 Transition
 .fade-slide-enter-from,
 .fade-slide-leave-to {
-    opacity: 0;
-    transform: translateY(20px);
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .fade-slide-enter-to,
 .fade-slide-leave-from {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.copyright {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  white-space: nowrap;
+  transition: opacity 0.25s;
+
+  &.hide {
+    opacity: 0;
+  }
+
+  > a {
+    text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .copyright {
+    font-size: 10px;
+  }
 }
 
 @keyframes Twinkle {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes FooterGuide {
-    0% {
-        transform: translate(130%, -50%);
-    }
-    50% {
-        transform: translate(110%, -50%);
-    }
-    100% {
-        transform: translate(130%, -50%);
-    }
+  0% {
+    transform: translate(130%, -50%);
+  }
+  50% {
+    transform: translate(110%, -50%);
+  }
+  100% {
+    transform: translate(130%, -50%);
+  }
 }
 
 @keyframes rotate {
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes prixClipFix {
-    0% {
-        clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
-    }
-    25% {
-        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
-    }
-    50% {
-        clip-path: polygon(
-            50% 50%,
-            0 0,
-            100% 0,
-            100% 100%,
-            100% 100%,
-            100% 100%
-        );
-    }
-    75% {
-        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
-    }
-    100% {
-        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
-    }
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
 }
